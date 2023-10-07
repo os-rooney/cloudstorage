@@ -26,20 +26,10 @@ public class FileController {
 
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("fileUpload") MultipartFile fileData, Authentication authentication, Model model) throws IOException {
-        if(fileData.isEmpty()) {
-            model.addAttribute("error", true);
-            model.addAttribute("success", false);
-            return "result";
-        }
-
         User user = userService.getUser(authentication.getName());
         Integer userId = user.getUserId();
-        File file = new File();
-        file.setFilename(fileData.getOriginalFilename());
-        file.setContentType(fileData.getContentType());
-        file.setFileSize(fileData.getSize() ); // Convert Byte -> KB -> MB
-        file.setFileData(fileData.getBytes());
-        file.setUserId(userId);
+
+        File file = fileService.setFileInformation(fileData, userId);
 
         if(fileService.fileExists(file.getFilename(), userId)) {
             model.addAttribute("success", false);
@@ -49,6 +39,7 @@ public class FileController {
 
         fileService.saveFile(file);
         model.addAttribute("success", true);
+
         return "result";
     }
 

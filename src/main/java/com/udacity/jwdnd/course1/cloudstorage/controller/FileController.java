@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
@@ -42,6 +43,20 @@ public class FileController {
         fileService.saveFile(file, model);
 
         return "result";
+    }
+
+    @GetMapping("/view/{filename}")
+    public void viewFile(@PathVariable("filename") String filename, HttpServletResponse response, Authentication authentication) throws IOException {
+        User user = userService.getUserFromAuthentication(authentication);
+        File file = fileService.getFileByName(filename, user.getUserId());
+
+        if (file != null) {
+            fileService.setResponseHeaders(response, file);
+            fileService.writeToFileOutputStream(response, file);
+        } else {
+            // Handle the case when the file is not found
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     @GetMapping("/delete/{fileId}")

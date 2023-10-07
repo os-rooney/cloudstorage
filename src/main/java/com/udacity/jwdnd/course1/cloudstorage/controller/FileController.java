@@ -26,27 +26,20 @@ public class FileController {
 
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("fileUpload") MultipartFile fileData, Authentication authentication, Model model) throws IOException {
-        User user = userService.getUser(authentication.getName());
+        User user = userService.getUserFromAuthentication(authentication);
         Integer userId = user.getUserId();
 
-        // prevent user from submitting the form without file
-        if(fileData.isEmpty()) {
-            model.addAttribute("fileIsEmpty", "You can't submit the form without uploading a file.");
-            model.addAttribute("error", false);
-            model.addAttribute("success", false);
+        if (fileService.isFileEmpty(fileData, model)) {
             return "result";
         }
 
         File file = fileService.setFileInformation(fileData, userId);
 
-        if(fileService.fileExists(file.getFilename(), userId)) {
-            model.addAttribute("success", false);
-            model.addAttribute("error", true);
+        if (fileService.isFileAlreadyUploaded(file, model)) {
             return "result";
         }
 
-        fileService.saveFile(file);
-        model.addAttribute("success", true);
+        fileService.saveFile(file, model);
 
         return "result";
     }

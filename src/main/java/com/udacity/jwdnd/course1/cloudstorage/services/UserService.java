@@ -2,7 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.entity.User;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -38,4 +38,7 @@ public class UserService {
         return userMapper.getUser(username);
     }
 
+    public User getUserFromAuthentication(Authentication authentication) {
+        return getUser(authentication.getName());
+    }
 }

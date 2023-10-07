@@ -52,4 +52,11 @@ public class FileController {
         return "result";
     }
 
+    @GetMapping("/delete/{fileId}")
+    public String deleteFile(@PathVariable("fileId") Integer fileId, Model model) {
+        fileService.deleteFileById(fileId);
+        model.addAttribute("success", true);
+        model.addAttribute("error", false);
+        return "result";
+    }
 }

@@ -29,6 +29,14 @@ public class FileController {
         User user = userService.getUser(authentication.getName());
         Integer userId = user.getUserId();
 
+        // prevent user from submitting the form without file
+        if(fileData.isEmpty()) {
+            model.addAttribute("fileIsEmpty", "You can't submit the form without uploading a file.");
+            model.addAttribute("error", false);
+            model.addAttribute("success", false);
+            return "result";
+        }
+
         File file = fileService.setFileInformation(fileData, userId);
 
         if(fileService.fileExists(file.getFilename(), userId)) {

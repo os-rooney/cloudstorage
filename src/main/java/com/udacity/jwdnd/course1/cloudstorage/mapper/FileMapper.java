@@ -18,8 +18,8 @@ public interface FileMapper {
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
     void saveFile(File file);
 
-    @Delete("DELETE FROM FILES WHERE fileid = #{fileId}")
-    void deleteFileById(Integer fileId);
+    @Delete("DELETE FROM FILES WHERE fileid=#{fileId} AND userid=#{userId}")
+    void deleteFileById(Integer fileId, Integer userId);
 
 }
 

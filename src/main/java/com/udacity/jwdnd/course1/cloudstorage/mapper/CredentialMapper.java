@@ -11,15 +11,12 @@ public interface CredentialMapper {
     @Select("SELECT * FROM CREDENTIALS WHERE userid=#{userId}")
     List<Credential> getCredentials(Integer userId);
 
-    @Select("SELECT * FROM CREDENTIALS WHERE url=#{url} AND username=#{username}")
-    Credential getCredentialByUrlAndUsername(String url, String username);
-
     @Insert("INSERT INTO CREDENTIALS (url, username, key, password, userid) VALUES (#{url}, #{username}, #{key}, #{password}, #{userId})")
     void save(Credential credential);
 
     @Delete("DELETE FROM CREDENTIALS WHERE credentialid=#{credentialId} AND userid=#{userId}")
     void delete(Integer credentialId, Integer userId);
 
-    @Update("UPDATE CREDENTIALS SET url=#{url}, username=#{username}, password=#{password} WHERE credentialid=#{credentialId}")
+    @Update("UPDATE CREDENTIALS SET url=#{url}, username=#{username}, key=#{key}, password=#{password} WHERE credentialid=#{credentialId}")
     void update(Credential credential);
 }

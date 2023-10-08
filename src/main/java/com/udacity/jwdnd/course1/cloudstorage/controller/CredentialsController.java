@@ -36,7 +36,7 @@ public class CredentialsController {
             newCredential.setUserId(user.getUserId());
             credentialService.saveCredential(newCredential);
         } else {
-            //credentialService.update(credential);
+            credentialService.updateCredential(newCredential);
         }
         model.addAttribute("success", true);
         return "result";

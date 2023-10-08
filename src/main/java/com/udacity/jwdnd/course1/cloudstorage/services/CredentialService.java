@@ -14,7 +14,7 @@ public class CredentialService {
     private final CredentialMapper credentialMapper;
     private final EncryptionService encryptionService;
 
-    CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService){
+    CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService) {
         this.credentialMapper = credentialMapper;
         this.encryptionService = encryptionService;
     }
@@ -25,6 +25,9 @@ public class CredentialService {
 
     public Credential setCredentialInformation(Credential credential) {
         Credential newCredentialToSave = new Credential();
+        if (credential.getCredentialId() != null) {
+            newCredentialToSave.setCredentialId(credential.getCredentialId());
+        }
         newCredentialToSave.setUrl(credential.getUrl());
         newCredentialToSave.setUsername(credential.getUsername());
         newCredentialToSave.setKey(createEncryptedKey());
@@ -53,5 +56,10 @@ public class CredentialService {
 
     public void deleteCredential(Integer credentialId, Integer userId) {
         credentialMapper.delete(credentialId, userId);
+    }
+
+    public void updateCredential(Credential credential) {
+        credential.setPassword(createEncryptedPassword(credential.getPassword(), credential.getKey()));
+        credentialMapper.update(credential);
     }
 }

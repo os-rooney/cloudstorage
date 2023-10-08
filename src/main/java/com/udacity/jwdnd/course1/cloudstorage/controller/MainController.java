@@ -36,11 +36,8 @@ public class MainController {
         User user = userService.getUserFromAuthentication(authentication);
         model.addAttribute("files", fileService.getFiles(user.getUserId()));
         model.addAttribute("notes", noteService.getNotes(user.getUserId()));
-        List<Credential> credentials = credentialService.getCredentials(user.getUserId());
-        for(Credential credential : credentials) {
-            credential.setPassword(encryptionService.decryptValue(credential.getPassword(), credential.getKey()));
-        }
-        model.addAttribute("credentials", credentials);
+        model.addAttribute("credentials", credentialService.getCredentials(user.getUserId()));
+        model.addAttribute("encryptionService",  encryptionService);
         return "home";
     }
 }

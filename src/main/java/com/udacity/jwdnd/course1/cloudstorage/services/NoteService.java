@@ -22,6 +22,10 @@ public class NoteService {
     public void saveNote(Note note) {
         noteMapper.saveNote(note);
     }
+
+    public void updateNote(Note note) {
+        noteMapper.updateNote(note);
+    }
     public void deleteNoteById(Integer noteId, Integer userId) {
         noteMapper.deleteFileById(noteId, userId);
     }

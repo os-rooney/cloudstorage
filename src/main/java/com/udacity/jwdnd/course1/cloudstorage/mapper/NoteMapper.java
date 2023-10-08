@@ -18,8 +18,8 @@ public interface NoteMapper {
     @Options(useGeneratedKeys = true, keyProperty = "noteId")
     void saveNote(Note note);
 
-    @Update("UPDATE NOTES SET notetitle = #{noteTitle}, notedescription = #{noteDescription} WHERE noteid=#{noteId} AND userid=#{userId}" )
-    Integer update(Note note, Integer userId);
+    @Update("UPDATE NOTES SET notetitle = #{noteTitle}, notedescription = #{noteDescription} WHERE noteid=#{noteId}" )
+    Integer updateNote(Note note);
     @Delete("DELETE FROM NOTES WHERE noteid=#{noteId} AND userid=#{userId}")
     void deleteFileById(Integer noteId, Integer userId);
 }

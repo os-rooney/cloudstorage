@@ -73,11 +73,8 @@
                         onclick="showNoteModal()">
                     + Add a New Note
                 </button>
-                <div th:if="${notes == null || notes.isEmpty()}" class="d-flex justify-content-center mt-5">
-                    you don't have notes yet...
-                </div>
 
-                <div th:if="${notes != null && !notes.isEmpty()}" class="table-responsive">
+                <div class="table-responsive">
                     <table class="table table-striped" id="userTable">
                         <thead>
                         <tr>
@@ -87,6 +84,9 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <tr th:if="${notes == null || notes.isEmpty()}" class="text-center">
+                            <td style="width: 100%" colspan="3">you have not created any notes yet</td>
+                        </tr>
                         <tr th:each="note:${notes}">
                             <td>
                                 <button type="button" class="btn btn-success" th:onclick="showNoteModal([[${note.getNoteId()}]], [[${note.getNoteTitle()}]], [[${note.getNoteDescription()}]])">Edit</button>

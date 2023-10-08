@@ -19,22 +19,6 @@ public class CredentialService {
         this.encryptionService = encryptionService;
     }
 
-    public Boolean credentialExists(String url, String username) {
-        return credentialMapper.getCredentialByUrlAndUsername(url, username) != null;
-    }
-
-    public Credential setCredentialInformation(Credential credential) {
-        Credential newCredentialToSave = new Credential();
-        if (credential.getCredentialId() != null) {
-            newCredentialToSave.setCredentialId(credential.getCredentialId());
-        }
-        newCredentialToSave.setUrl(credential.getUrl());
-        newCredentialToSave.setUsername(credential.getUsername());
-        newCredentialToSave.setKey(createEncryptedKey());
-        newCredentialToSave.setPassword(createEncryptedPassword(credential.getPassword(), newCredentialToSave.getKey()));
-        return newCredentialToSave;
-    }
-
     public List<Credential> getCredentials(Integer userId) {
         return credentialMapper.getCredentials(userId);
     }
@@ -59,7 +43,6 @@ public class CredentialService {
     }
 
     public void updateCredential(Credential credential) {
-        credential.setPassword(createEncryptedPassword(credential.getPassword(), credential.getKey()));
         credentialMapper.update(credential);
     }
 }

@@ -50,4 +50,8 @@ public class CredentialService {
     public String createEncryptedPassword(String password, String encodedKey) {
         return encryptionService.encryptValue(password, encodedKey);
     }
+
+    public void deleteCredential(Integer credentialId, Integer userId) {
+        credentialMapper.delete(credentialId, userId);
+    }
 }

@@ -30,8 +30,8 @@ public class FileService {
     public List<File> getFiles(Integer userId) {
         return fileMapper.getFiles(userId);
     }
-    public void deleteFileById(Integer fileId) {
-        fileMapper.deleteFileById(fileId);
+    public void deleteFileById(Integer fileId, Integer userId) {
+        fileMapper.deleteFileById(fileId, userId);
     }
 
     public File setFileInformation(MultipartFile fileData, Integer userId) throws IOException {

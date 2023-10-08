@@ -89,8 +89,8 @@
                         <tbody>
                         <tr th:each="note:${notes}">
                             <td>
-                                <button type="button" class="btn btn-success">Edit</button>
-                                <a class="btn btn-danger" th:href="@{/notes/delete/{noteId}(noteId=${note.getUserId()})}">Delete</a>
+                                <button type="button" class="btn btn-success" th:onclick="showNoteModal([[${note.getNoteId()}]], [[${note.getNoteTitle()}]], [[${note.getNoteDescription()}]])">Edit</button>
+                                <a class="btn btn-danger" th:href="@{/notes/delete/{noteId}(noteId=${note.getNoteId()})}">Delete</a>
                             </td>
                             <th th:text="${note.getNoteTitle()}" scope="row"></th>
                             <td th:text="${note.getNoteDescription()}"></td>

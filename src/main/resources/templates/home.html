@@ -89,8 +89,12 @@
                         </tr>
                         <tr th:each="note:${notes}">
                             <td>
-                                <button type="button" class="btn btn-success" th:onclick="showNoteModal([[${note.getNoteId()}]], [[${note.getNoteTitle()}]], [[${note.getNoteDescription()}]])">Edit</button>
-                                <a class="btn btn-danger" th:href="@{/notes/delete/{noteId}(noteId=${note.getNoteId()})}">Delete</a>
+                                <button type="button" class="btn btn-success"
+                                        th:onclick="showNoteModal([[${note.getNoteId()}]], [[${note.getNoteTitle()}]], [[${note.getNoteDescription()}]])">
+                                    Edit
+                                </button>
+                                <a class="btn btn-danger"
+                                   th:href="@{/notes/delete/{noteId}(noteId=${note.getNoteId()})}">Delete</a>
                             </td>
                             <th th:text="${note.getNoteTitle()}" scope="row"></th>
                             <td th:text="${note.getNoteDescription()}"></td>
@@ -110,7 +114,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="#" method="POST" th:action="@{/notes/save}" >
+                                <form action="#" method="POST" th:action="@{/notes/save}">
                                     <input type="hidden" name="noteId" id="note-id">
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">Title</label>
@@ -157,8 +161,11 @@
                         </tr>
                         <tr th:each="credential:${credentials}">
                             <td>
-                                <button th:onclick="showCredentialModal([[${credential.getCredentialId()}]], [[${credential.getUrl()}]], [[${credential.getUsername()}]], [[${encryptionService.decryptValue(credential.getPassword(), credential.getKey())}]])" type="button" class="btn btn-success">Edit</button>
-                                <a th:href="@{/credentials/delete/{credentialId}(credentialId = ${credential.getCredentialId()})}" class="btn btn-danger">Delete</a>
+                                <button th:onclick="showCredentialModal([[${credential.getCredentialId()}]], [[${credential.getUrl()}]], [[${credential.getUsername()}]], [[${encryptionService.decryptValue(credential.getPassword(), credential.getKey())}]])"
+                                        type="button" class="btn btn-success">Edit
+                                </button>
+                                <a th:href="@{/credentials/delete/{credentialId}(credentialId = ${credential.getCredentialId()})}"
+                                   class="btn btn-danger">Delete</a>
                             </td>
                             <th scope="row" th:text="${credential.getUrl()}"></th>
                             <td th:text="${credential.getUsername()}"></td>

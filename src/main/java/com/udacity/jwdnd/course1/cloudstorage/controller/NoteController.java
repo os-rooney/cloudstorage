@@ -22,23 +22,25 @@ public class NoteController {
     }
 
     @PostMapping("/save")
-    public String createNote(@RequestParam("noteTitle") String noteTitle, @RequestParam("noteDescription") String noteDescription, Model model, Authentication authentication) {
+    public String createNote(@ModelAttribute Note note, Model model, Authentication authentication) {
         User user = userService.getUserFromAuthentication(authentication);
-        Note note = new Note();
-        note.setNoteTitle(noteTitle);
-        note.setNoteDescription(noteDescription);
         note.setUserId(user.getUserId());
 
-        noteService.saveNote(note);
+        if (note.getNoteId() == null) {
+            noteService.saveNote(note);
+        } else {
+            noteService.updateNote(note);
+        }
         model.addAttribute("success", true);
         model.addAttribute("error", false);
+
         return "result";
     }
 
     @GetMapping("/delete/{noteId}")
     public String deleteNote(@PathVariable("noteId") Integer noteId, Authentication authentication, Model model) {
         User user = userService.getUserFromAuthentication(authentication);
-       noteService.deleteNoteById(noteId, user.getUserId());
+        noteService.deleteNoteById(noteId, user.getUserId());
 
         model.addAttribute("success", true);
         model.addAttribute("error", false);

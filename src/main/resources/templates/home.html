@@ -73,8 +73,11 @@
                         onclick="showNoteModal()">
                     + Add a New Note
                 </button>
+                <div th:if="${notes == null || notes.isEmpty()}" class="d-flex justify-content-center mt-5">
+                    you don't have notes yet...
+                </div>
 
-                <div class="table-responsive">
+                <div th:if="${notes != null && !notes.isEmpty()}" class="table-responsive">
                     <table class="table table-striped" id="userTable">
                         <thead>
                         <tr>
@@ -84,13 +87,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr th:each="note:${notes}">
                             <td>
                                 <button type="button" class="btn btn-success">Edit</button>
-                                <a class="btn btn-danger">Delete</a>
+                                <a class="btn btn-danger" th:href="@{/notes/delete/{noteId}(noteId=${note.getUserId()})}">Delete</a>
                             </td>
-                            <th scope="row">Example Note Title</th>
-                            <td>Example Note Description</td>
+                            <th th:text="${note.getNoteTitle()}" scope="row"></th>
+                            <td th:text="${note.getNoteDescription()}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -107,7 +110,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="#" method="POST">
+                                <form action="#" method="POST" th:action="@{/notes/save}" >
                                     <input type="hidden" name="noteId" id="note-id">
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">Title</label>

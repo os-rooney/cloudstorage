@@ -60,8 +60,9 @@ public class FileController {
     }
 
     @GetMapping("/delete/{fileId}")
-    public String deleteFile(@PathVariable("fileId") Integer fileId, Model model) {
-        fileService.deleteFileById(fileId);
+    public String deleteFile(@PathVariable("fileId") Integer fileId, Authentication authentication, Model model) {
+        User user = userService.getUserFromAuthentication(authentication);
+        fileService.deleteFileById(fileId, user.getUserId());
         model.addAttribute("success", true);
         model.addAttribute("error", false);
         return "result";

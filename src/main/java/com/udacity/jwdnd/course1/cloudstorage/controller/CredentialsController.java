@@ -25,18 +25,16 @@ public class CredentialsController {
     public String saveCredential(@ModelAttribute Credential credential, Model model, Authentication authentication) {
         User user = userService.getUserFromAuthentication(authentication);
 
-        if (credentialService.credentialExists(credential.getUrl(), credential.getUsername())) {
-            model.addAttribute("error", true);
-            return "result";
-        }
-
-        Credential newCredential = credentialService.setCredentialInformation(credential);
+        String encodeKey = credentialService.createEncryptedKey();
+        String encryptedPassword = credentialService.createEncryptedPassword(credential.getPassword(), encodeKey);
+        credential.setKey(encodeKey);
+        credential.setPassword(encryptedPassword);
 
         if (credential.getCredentialId() == null) {
-            newCredential.setUserId(user.getUserId());
-            credentialService.saveCredential(newCredential);
+            credential.setUserId(user.getUserId());
+            credentialService.saveCredential(credential);
         } else {
-            credentialService.updateCredential(newCredential);
+            credentialService.updateCredential(credential);
         }
         model.addAttribute("success", true);
         return "result";

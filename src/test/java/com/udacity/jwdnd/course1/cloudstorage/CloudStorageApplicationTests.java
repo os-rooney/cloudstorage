@@ -286,8 +286,8 @@ class CloudStorageApplicationTests {
 
     @Test
     public void testCreateNote() {
-        doMockSignUp("Test", "User", "testuser", "password");
-        doLogIn("testuser", "password");
+        doMockSignUp("Test", "User", "cn", "password");
+        doLogIn("cn", "password");
         createNote();
     }
 
@@ -319,8 +319,8 @@ class CloudStorageApplicationTests {
     }
     @Test
     public void testEditNote() {
-        doMockSignUp("Test", "User", "testuser", "password");
-        doLogIn("testuser", "password");
+        doMockSignUp("Test", "User", "en", "password");
+        doLogIn("en", "password");
 
         WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
 
@@ -354,8 +354,8 @@ class CloudStorageApplicationTests {
     }
     @Test
     public void testDeleteNote() {
-        doMockSignUp("Test", "User", "testuser", "password");
-        doLogIn("testuser", "password");
+        doMockSignUp("Test", "User", "dn", "password");
+        doLogIn("dn", "password");
 
         WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
 
@@ -378,8 +378,8 @@ class CloudStorageApplicationTests {
 
     @Test
     public void testCreateCredential() {
-        doMockSignUp("Test", "User", "testuser", "password");
-        doLogIn("testuser", "password");
+        doMockSignUp("Test", "User", "cc", "password");
+        doLogIn("cc", "password");
 
         createCredential();
 
@@ -416,8 +416,8 @@ class CloudStorageApplicationTests {
 
     @Test
     public void testEditCredential() {
-        doMockSignUp("Test", "User", "testuser", "password");
-        doLogIn("testuser", "password");
+        doMockSignUp("Test", "User", "ed", "password");
+        doLogIn("ed", "password");
 
         createCredential();
 
@@ -452,8 +452,8 @@ class CloudStorageApplicationTests {
 
     @Test
     public void testDeleteCredential() {
-        doMockSignUp("Test", "User", "testuser", "password");
-        doLogIn("testuser", "password");
+        doMockSignUp("Test", "User", "dcc", "password");
+        doLogIn("dcc", "password");
 
         createCredential();
 

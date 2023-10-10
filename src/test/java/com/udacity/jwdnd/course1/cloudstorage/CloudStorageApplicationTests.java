@@ -284,4 +284,191 @@ class CloudStorageApplicationTests {
         assertTrue(driver.findElement(By.id("logout-msg")).getText().contains("You have been logged out"));
     }
 
+    @Test
+    public void testCreateNote() {
+        doMockSignUp("Test", "User", "testuser", "password");
+        doLogIn("testuser", "password");
+        createNote();
+    }
+
+    private void createNote() {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+
+        // Navigate to the Notes tab
+        driver.findElement(By.id("nav-notes-tab")).click();
+
+        // Click the "+ Add a New Note" button
+        driver.findElement(By.cssSelector(".btn.btn-info.float-right")).click();
+
+        // Fill in the note details
+        WebElement titleField = driver.findElement(By.id("note-title"));
+        WebElement descriptionField = driver.findElement(By.id("note-description"));
+
+        titleField.sendKeys("Test Note");
+        descriptionField.sendKeys("This is a test note.");
+
+        // Click the "Save changes" button in the modal
+        driver.findElement(By.cssSelector(".modal-footer .btn.btn-primary")).click();
+
+        driver.findElement(By.tagName("a")).click();
+        driver.findElement(By.id("nav-notes-tab")).click();
+
+        // Verify that the note is created and visible in the note list
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[text()='Test Note']")));
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//td[text()='This is a test note.']")));
+    }
+    @Test
+    public void testEditNote() {
+        doMockSignUp("Test", "User", "testuser", "password");
+        doLogIn("testuser", "password");
+
+        WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+
+        createNote();
+
+        // Navigate to the Notes tab
+        driver.findElement(By.id("nav-notes-tab")).click();
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("edit-note"))));
+
+        // Click the "Edit" button of an existing note
+        driver.findElement(By.id("edit-note")).click();
+
+        // Modify the note details
+        WebElement titleField = driver.findElement(By.id("note-title"));
+        WebElement descriptionField = driver.findElement(By.id("note-description"));
+
+        titleField.clear();
+        titleField.sendKeys("Updated Test Note");
+        descriptionField.clear();
+        descriptionField.sendKeys("This is an updated test note.");
+
+        // Click the "Save changes" button in the modal
+        driver.findElement(By.id("save-note")).click();
+
+        driver.findElement(By.tagName("a")).click();
+        driver.findElement(By.id("nav-notes-tab")).click();
+
+        // Verify that the changes appear in the note list
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[text()='Updated Test Note']")));
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//td[text()='This is an updated test note.']")));
+    }
+    @Test
+    public void testDeleteNote() {
+        doMockSignUp("Test", "User", "testuser", "password");
+        doLogIn("testuser", "password");
+
+        WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+
+        createNote();
+
+        // Navigate to the Notes tab
+        driver.findElement(By.id("nav-notes-tab")).click();
+
+        // Click the "Delete" button of an existing note
+        driver.findElement(By.id("delete-note")).click();
+
+        driver.findElement(By.tagName("a")).click();
+        driver.findElement(By.id("nav-notes-tab")).click();
+
+        // Verify that the note no longer appears in the note list
+        webDriverWait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//th[text()='Note Title']")));
+        webDriverWait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//td[text()='Note Description']")));
+    }
+
+
+    @Test
+    public void testCreateCredential() {
+        doMockSignUp("Test", "User", "testuser", "password");
+        doLogIn("testuser", "password");
+
+        createCredential();
+
+        // Verify that the credential is created and visible in the credential list
+        WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+        driver.findElement(By.id("nav-credentials-tab")).click();
+        assertEquals(driver.findElement(By.id("example.com")).getText(), "example.com");
+        assertEquals(driver.findElement(By.id("testuser")).getText(), "testuser");
+
+    }
+
+    private void createCredential() {
+        // Navigate to the Credentials tab
+        driver.findElement(By.id("nav-credentials-tab")).click();
+
+        // Click the "+ Add a New Credential" button
+        driver.findElement(By.id("add-credential")).click();
+
+        // Fill in the credential details
+        WebElement urlField = driver.findElement(By.id("credential-url"));
+        WebElement usernameField = driver.findElement(By.id("credential-username"));
+        WebElement passwordField = driver.findElement(By.id("credential-password"));
+
+        urlField.sendKeys("example.com");
+        usernameField.sendKeys("testuser");
+        passwordField.sendKeys("password123");
+
+        // Click the "Save changes" button in the modal
+        driver.findElement(By.id("save-credential")).click();
+
+        driver.findElement(By.tagName("a")).click();
+        driver.findElement(By.id("nav-credentials-tab")).click();
+    }
+
+    @Test
+    public void testEditCredential() {
+        doMockSignUp("Test", "User", "testuser", "password");
+        doLogIn("testuser", "password");
+
+        createCredential();
+
+        // Navigate to the Credentials tab
+        driver.findElement(By.id("nav-credentials-tab")).click();
+
+        // Click the "Edit" button of an existing credential
+        driver.findElement(By.id("edit-credential")).click();
+
+        // Modify the credential details
+        WebElement urlField = driver.findElement(By.id("credential-url"));
+        WebElement usernameField = driver.findElement(By.id("credential-username"));
+        WebElement passwordField = driver.findElement(By.id("credential-password"));
+
+        urlField.clear();
+        urlField.sendKeys("updated-example.com");
+        usernameField.clear();
+        usernameField.sendKeys("updated-testuser");
+
+        // Click the "Save changes" button in the modal
+        driver.findElement(By.id("save-credential")).click();
+
+        driver.findElement(By.tagName("a")).click();
+        driver.findElement(By.id("nav-credentials-tab")).click();
+
+        // Verify that the changes appear in the credential list
+        WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+
+        assertEquals(driver.findElement(By.id("updated-example.com")).getText(), "updated-example.com");
+        assertEquals(driver.findElement(By.id("updated-testuser")).getText(), "updated-testuser");
+    }
+
+    @Test
+    public void testDeleteCredential() {
+        doMockSignUp("Test", "User", "testuser", "password");
+        doLogIn("testuser", "password");
+
+        createCredential();
+
+        // Navigate to the Credentials tab
+        driver.findElement(By.id("nav-credentials-tab")).click();
+
+        // Click the "Delete" button of an existing credential
+        driver.findElement(By.id("delete-credetial")).click();
+
+        driver.findElement(By.tagName("a")).click();
+        driver.findElement(By.id("nav-credentials-tab")).click();
+
+        // Verify that the credential no longer appears in the credential list
+        WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+        webDriverWait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//td[text()='example.com']")));
+        webDriverWait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//td[text()='testuser']")));
+    }
 }

@@ -17,7 +17,7 @@
             <h1 class="display-5">Sign Up</h1>
             <form action="#" method="POST" th:action="@{/signup}" th:object="${signupDTO}">
                 <div th:if="*{signupSucess}" id="success-msg" class="alert alert-success">
-                    You successfully signed up! Please continue to the <a th:href="@{/login}">login</a> page.
+                    You successfully signed up! Please continue to the <a id="redirectLogin" th:href="@{/login}">login</a> page.
                 </div>
                 <div th:if="*{usernameExistsAlready}" class="alert alert-danger">
                     <span>User already exists with this username</span>
